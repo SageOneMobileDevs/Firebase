@@ -1,4 +1,4 @@
 {
 	"3.13.0":"https://github.com/SageOneMobileDevs/Firebase/releases/download/3.7.2/Firebase.zip",
-	"1.0.0":"http://192.168.1.33:8000/public/Firebase.framework.zip"
+	"1.0.0":"https://localhost.ssl:4443/public/Firebase.framework.zip"
 }
