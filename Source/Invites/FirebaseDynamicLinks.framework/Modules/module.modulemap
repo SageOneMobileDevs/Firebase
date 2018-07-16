@@ -1,16 +1,11 @@
 framework module FirebaseDynamicLinks {
-
-  export *
-
   umbrella header "FirebaseDynamicLinks.h"
-
-  header "FIRDynamicLink.h"
-  header "FIRDynamicLinks.h"
-  header "FIRDynamicLinksCommon.h"
-
-  link framework "AssetsLibrary"
-  link framework "CoreMotion"
-  link framework "MessageUI"
-  link framework "QuartzCore"
-  link framework "WebKit"
-}
+  export *
+  module * { export *}
+  link "sqlite3"
+  link "z"
+  link framework "Security"
+  link framework "StoreKit"
+  link framework "SystemConfiguration"
+  link framework "UIKit"
+  link framework "WebKit"}

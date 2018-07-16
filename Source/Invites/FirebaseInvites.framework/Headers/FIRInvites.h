@@ -13,6 +13,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "FIRInvitesSwiftNameSupport.h"
+
 @class FIRInvitesTargetApplication;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -25,9 +27,13 @@ typedef NS_ENUM(NSUInteger, FIRReceivedInviteMatchType) {
   /// The match between the deeplink and this device is exact, hence you could reveal any personal
   /// information related to the deep link.
   FIRReceivedInviteMatchTypeStrong
-};
+} FIR_SWIFT_NAME(ReceivedInviteMatchType);
 
 /// The class that represents a received invitation.
+<<<<<<< HEAD
+=======
+FIR_SWIFT_NAME(ReceivedInvite)
+>>>>>>> soheilbm/master
 @interface FIRReceivedInvite : NSObject
 
 /// The invite ID that was passed to the app.
@@ -41,9 +47,20 @@ typedef NS_ENUM(NSUInteger, FIRReceivedInviteMatchType) {
 
 @end
 
+/**
+ * @abstract The definition of the block used by |handleUniversalLink:completion:|
+ */
+typedef void (^FIRInvitesUniversalLinkHandler)(FIRReceivedInvite * _Nullable receivedInvite,
+                                                   NSError * _Nullable error)
+  FIR_SWIFT_NAME(InvitesUniversalLinkHandler);
+
 @class GINInviteTargetApplication;
 
 /// The protocol to receive the result of the invite action.
+<<<<<<< HEAD
+=======
+FIR_SWIFT_NAME(InviteDelegate)
+>>>>>>> soheilbm/master
 @protocol FIRInviteDelegate <NSObject>
 
 @optional
@@ -51,12 +68,20 @@ typedef NS_ENUM(NSUInteger, FIRReceivedInviteMatchType) {
 /// |invitationsIds| holds the IDs of the invitations sent by the user.
 /// |error| is nil upon success. Otherwise, it will contain one of the errors defined in
 /// FIRInvitesError.h.
+<<<<<<< HEAD
 - (void)inviteFinishedWithInvitations:(NSArray *)invitationIds
+=======
+- (void)inviteFinishedWithInvitations:(NSArray <NSString *> *)invitationIds
+>>>>>>> soheilbm/master
                                 error:(nullable NSError *)error;
 
 @end
 
 /// The protocol to configure the invite dialog.
+<<<<<<< HEAD
+=======
+FIR_SWIFT_NAME(InviteBuilder)
+>>>>>>> soheilbm/master
 @protocol FIRInviteBuilder <NSObject>
 
 /// Sets the delegate object that will receive callbacks after the invite dialog closes.
@@ -80,8 +105,15 @@ typedef NS_ENUM(NSUInteger, FIRReceivedInviteMatchType) {
 /// opened when a user acts on an invite on that platform.
 - (void)setOtherPlatformsTargetApplication:(FIRInvitesTargetApplication *)targetApplication;
 
+<<<<<<< HEAD
 /// Sets the app description displayed in email invitations. Maximum length is 1000 characters.
 - (void)setDescription:(NSString *)description;
+=======
+/// Sets the app description displayed in email invitations (max 1000 characters), but it is
+/// no longer supported in Firebase App Invites.
+- (void)setDescription:(NSString *)description
+      __deprecated_msg("setDescription is no longer supported in Firebase App Invites.");
+>>>>>>> soheilbm/master
 
 /// Sets an image for invitations. The imageURI is required to be in absolute format. The URI can
 /// be either a content URI with extension "jpg" or "png", or a network url with scheme "https".
@@ -102,11 +134,19 @@ typedef NS_ENUM(NSUInteger, FIRReceivedInviteMatchType) {
 @end
 
 /// The main entry point for the invite APIs.
+<<<<<<< HEAD
+=======
+FIR_SWIFT_NAME(Invites)
+>>>>>>> soheilbm/master
 @interface FIRInvites : NSObject
 
 /// App Invite requires defining the client ID if the invite is received on a different platform
 /// than iOS. If an Android client ID is defined in the GoogleService-Info.plist, the targetApp will
+<<<<<<< HEAD
 /// automatically be configured by calling [FIRApp configre] as a target app for new invites. This
+=======
+/// automatically be configured by calling [FIRApp configure] as a target app for new invites. This
+>>>>>>> soheilbm/master
 /// property allows retrieving a copy of that |GINInviteTargetApplication|.
 @property(nonatomic) FIRInvitesTargetApplication *targetApp;
 
@@ -127,7 +167,19 @@ typedef NS_ENUM(NSUInteger, FIRReceivedInviteMatchType) {
 /// Returns a |FIRReceivedInvite| instance if the URL is an invite deeplink.
 + (nullable id)handleURL:(NSURL *)url
        sourceApplication:(nullable NSString *)sourceApplication
-              annotation:(nullable id)annotation;
+              annotation:(nullable id)annotation
+__deprecated_msg("Use |handleUniversalLink:completion:| instead.");
+
+/**
+ * @method handleUniversalLink:completion:
+ * @abstract Convenience method to handle a Universal Link whether it is long or short. A long link
+ *     will call the handler immediately, but a short link may not.
+ * @param URL A Universal Link URL.
+ * @param completion A block that handles the outcome of attempting to create a FIRReceivedInvite.
+ * @return YES if FIRInvites is handling the link, otherwise, NO.
+ */
++ (BOOL)handleUniversalLink:(NSURL *)URL
+                 completion:(FIRInvitesUniversalLinkHandler)completion;
 
 /// Sends google analytics data after the invitation flow is completed. You could call this
 /// method in your application after you obtain a |FIRReceivedInvite| instance in
